@@ -23,6 +23,9 @@ router.get('/', ctx => {
 
 const auth = async (ctx, next) => {
   ctx.status = 401;
+  ctx.body = {
+    message: 'Invalid credentials.'
+  };
   return;
 
   await next();

@@ -10,4 +10,5 @@ it('should return 401 if authorization is missing or invalid', async () => {
     }).send();
 
   expect(response.status).toBe(401);
+  expect(response.body.message).toBe('Invalid credentials.');
 });
