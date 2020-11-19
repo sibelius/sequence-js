@@ -3,10 +3,6 @@ import Router from "koa-router";
 import bodyParser from "koa-bodyparser";
 import convert from "koa-convert";
 import cors from "koa-cors";
-import { koaPlayground } from "graphql-playground-middleware";
-import graphqlHttp from "koa-graphql";
-import { config } from "./config";
-import { schema } from "./schema/schema";
 
 const app = new Koa();
 const router = new Router();
@@ -16,42 +12,45 @@ app.use(convert(cors({ maxAge: 86400, credentials: true })));
 
 router.get('/', ctx => {
   const info = [
-    '/graphql - GraphiQL',
-    '/playground - GraphQL Playground',
-    '/status - Status server'
+    'POST /v1/transactions',
+    'GET /v1/transactions?account={id}',
+    'GET /v1/balances?account={id}'
   ]
 
   ctx.status = 200;
   ctx.body = info.join('\n');
-})
-router.get("/status", (ctx) => {
-  ctx.status = 200;
-  ctx.body = "running";
 });
 
-router.all(
-  "/playground",
-  koaPlayground({
-    endpoint: "/graphql",
-  })
-);
+const auth = async (ctx, next) => {
+  ctx.status = 401;
+  return;
 
-const appGraphQL = convert(
-  graphqlHttp(async (request: Request, ctx: Response, koaContext) => {
-    return {
-      graphiql: config.NODE_ENV !== "production",
-      schema,
-      rootValue: {
-        request: ctx.req,
-      },
-      context: {
-        koaContext,
-      },
-    };
-  })
-);
+  await next();
+};
 
-router.all("/graphql", appGraphQL);
+router.use(auth);
+
+router.post('/v1/transactions', async (ctx) => {
+  ctx.status = 200;
+});
+
+router.get('/v1/transactions/:transaction-id', async (ctx) => {
+  const { id } = ctx.params;
+
+  ctx.status = 200;
+})
+
+router.get('/v1/transactions', async (ctx) => {
+  const { account } = ctx.query;
+
+  ctx.status = 200;
+});
+
+router.get('/v1/balances', async (ctx) => {
+  const { account } = ctx.query;
+
+  ctx.status = 200;
+})
 
 app.use(router.routes()).use(router.allowedMethods());
 
