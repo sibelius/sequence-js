@@ -2,19 +2,7 @@ import request from 'supertest';
 import app from '../app';
 import { base64 } from '../base64';
 
-it('should return 401 if authorization is missing or invalid', async () => {
-  const response = await request(app.callback())
-    .get('/v1/balances')
-    .set({
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    }).send();
-
-  expect(response.status).toBe(401);
-  expect(response.body.message).toBe('Invalid credentials.');
-});
-
-it.only('should return 200 if authorization is valid', async () => {
+it('should return 200', async () => {
   const clientId = '123';
   const clientSecret = '';
 
@@ -22,9 +10,9 @@ it.only('should return 200 if authorization is valid', async () => {
 
   const authorization = `Basic ${token}`;
 
-  const account = 'sibelius';
+  const transactionId = 'transactionID';
 
-  const url = `/v1/balances?account=${account}`;
+  const url = `/v1/transactions/${transactionId}`;
 
   const response = await request(app.callback())
     .get(url)

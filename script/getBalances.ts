@@ -14,9 +14,10 @@ const keys = [
 const authorization = 'MTIzOg==';
 
 const getBalances = async () => {
-  const account = "sibelius";
+  // const account = "sibelius";
+  const account = 'abc';
 
-  const getUrl = (account: string) => `http://localhost:8910/v1/transactions?account=${account}`
+  const getUrl = (account: string) => `http://localhost:8910/v1/balances?account=${account}`
 
   const options = {
     method: 'GET',
