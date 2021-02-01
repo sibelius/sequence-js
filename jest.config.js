@@ -1,6 +1,8 @@
 const pkg = require('./package');
 
 module.exports = {
+  preset: '@shelf/jest-dynamodb',
+  // preset: "jest-dynalite"
   name: pkg.name,
   displayName: pkg.name,
   testPathIgnorePatterns: ['/node_modules/', './dist', './scripts'],

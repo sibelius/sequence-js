@@ -16,6 +16,7 @@ const authorization = 'MTIzOg==';
 const getBalances = async () => {
   // const account = "sibelius";
   const account = 'abc';
+  // const account = "rafael";
 
   const getUrl = (account: string) => `http://localhost:8910/v1/balances?account=${account}`
 

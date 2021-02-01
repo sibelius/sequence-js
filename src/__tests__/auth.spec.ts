@@ -14,7 +14,7 @@ it('should return 401 if authorization is missing or invalid', async () => {
   expect(response.body.message).toBe('Invalid credentials.');
 });
 
-it.only('should return 200 if authorization is valid', async () => {
+it('should return 200 if authorization is valid', async () => {
   const clientId = '123';
   const clientSecret = '';
 
@@ -35,5 +35,4 @@ it.only('should return 200 if authorization is valid', async () => {
     }).send();
 
   expect(response.status).toBe(200);
-  expect(response.body.message).toBe('Invalid credentials.');
 });
