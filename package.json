@@ -12,7 +12,8 @@
     "koa-graphql": "^0.8.0",
     "koa-router": "10.0.0",
     "sjcl": "^1.0.8",
-    "yup": "0.30.0"
+    "yup": "0.30.0",
+    "convert-hrtime": "^3.0.0"
   },
   "devDependencies": {
     "@babel/cli": "7.12.1",
@@ -67,6 +68,7 @@
     "start": "webpack --watch --progress --config webpack.js",
     "test": "jest",
     "tsc": "tsc",
-    "w": "yarn b webpackx.ts"
+    "w": "yarn b webpackx.ts",
+    "admin": "DYNAMO_ENDPOINT=http://localhost:8000 dynamodb-admin"
   }
 }

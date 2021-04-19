@@ -1,4 +1,7 @@
 import "isomorphic-fetch";
+import { sequenceApi } from '../src/api';
+import { authorization } from '../src/authorization';
+import { debugConsole } from '../src/debugConsole';
 
 const keys = [
   {
@@ -31,7 +34,7 @@ type Transaction = {
 };
 
 // echo '123:' | base64
-const authorization = "MTIzOg==";
+// const authorization = "MTIzOg==";
 
 const errorExample = {
   error: {
@@ -62,43 +65,38 @@ const errorExample = {
 };
 
 const seeTransaction = async () => {
+  const [, , ...unsanitizedArgs] = process.argv;
+
+  if (unsanitizedArgs.length !== 2) {
+    // eslint-disable-next-line
+    console.log('Usage: yarn w ./script/seed.ts <account> <amount>')
+    return;
+  }
+
+  const [account, amountStr] = unsanitizedArgs;
+  const amount = parseInt(amountStr);
+
   const url = `http://localhost:8910/v1/transactions`;
 
   const payload = {
     from: keys[0]["public-key"],
-    to: "sibelius",
-    // amount: 100,
+    to: account,
+    amount,
     currency: "BRL",
   };
 
   const options = {
     method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: `Basic ${authorization}`,
-    },
     body: JSON.stringify(payload),
   };
 
-  const response = await fetch(url, options);
+  const api = sequenceApi(authorization);
 
-  console.log({
-    ok: response.ok,
-  });
-  if (response.ok) {
-    const data = await response.json();
+  const data = await api(url, options);
 
-    console.log({
-      data,
-    });
-  } else {
-    const data = await response.text();
-
-    console.log({
-      data,
-    });
-  }
+  debugConsole({
+    data,
+  })
 };
 
 (async () => {

@@ -29,4 +29,5 @@ const SequenceSchema = new dynamoose.Schema({
   timestamp: String, // Could also convert this to the Dynamoose `Date` type at some point, but that would likely require more in depth changes to your system.
   LSI1_SK: String,
 });
+
 export const SequenceModel = dynamoose.model("sequence", SequenceSchema);

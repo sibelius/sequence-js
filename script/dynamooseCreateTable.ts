@@ -1,5 +1,5 @@
-import { SequenceModel } from '../src/sequence';
-import { debugConsole } from '../../../feedback-server/packages/graphql';
+import { SequenceModel } from '../src/SequenceModel';
+import { debugConsole } from '../src/debugConsole';
 
 const play = async () => {
   debugConsole(await SequenceModel.table.create.request());
